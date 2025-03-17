@@ -50,6 +50,6 @@ def update_issue_status(request, issue_id):
         return JsonResponse({'status': 'success', 'issue_id': issue.id})
     return JsonResponse({'status': 'error', 'message': 'Invalid request'})
 
-def custom_logout(request):
+def logged_out(request):
     logout(request)
     return redirect('login')

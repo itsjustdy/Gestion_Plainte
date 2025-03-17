@@ -9,5 +9,5 @@ urlpatterns = [
     path('issues/<int:issue_id>/update_status/', views.update_issue_status, name='update_issue_status'),
     path('signup/', views.signup, name='signup'),
     path('login/', auth_views.LoginView.as_view(template_name='registration/login.html'), name='login'),
-    path('logout/', views.custom_logout, name='logout'),
+    path('logged_out/', views.logged_out, name='logged_out'),
 ]

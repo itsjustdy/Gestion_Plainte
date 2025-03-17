@@ -1,204 +1,487 @@
+
 <!DOCTYPE html>
 <html>
 <head>
     <title>Liste des problèmes</title>
-    <link rel="stylesheet" type="text/css" href=>
-</head>
-<style>
-    /* Variables pour faciliter la personnalisation */
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <style>
+    /* Variables reprises du style existant */
 :root {
-  --primary-color: #3498db;
-  --secondary-color: #e74c3c;
-  --dark-color: #2c3e50;
-  --light-color: #f5f7fa;
-  --hover-color: #2980b9;
-  --status-color: #7f8c8d;
-  --shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-  --transition: all 0.3s ease;
+    --primary-color: #4361ee;
+    --secondary-color: #3a0ca3;
+    --accent-color: #7209b7;
+    --success-color: #4cc9f0;
+    --warning-color: #f72585;
+    --light-color: #f8f9fa;
+    --dark-color: #212529;
+    --shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+    --card-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+    --transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    --border-radius: 12px;
+    
+    /* Couleurs pour les statuts des problèmes */
+    --status-new: #3498db;
+    --status-inprogress: #e67e22;
+    --status-resolved: #2ecc71;
+    --status-closed: #95a5a6;
+    --status-rejected: #e74c3c;
 }
 
-/* Styles de base */
 * {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', 'Segoe UI', Arial, sans-serif;
 }
 
 body {
-  font-family: 'Segoe UI', Arial, sans-serif;
-  line-height: 1.6;
-  color: var(--dark-color);
-  background-color: var(--light-color);
-  padding: 30px;
-  max-width: 1000px;
-  margin: 0 auto;
+    background-color: var(--light-color);
+    color: var(--dark-color);
+    line-height: 1.6;
+    position: relative;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
 }
 
-/* Titre principal */
-h1 {
-  color: var(--primary-color);
-  margin-bottom: 25px;
-  padding-bottom: 10px;
-  border-bottom: 2px solid var(--primary-color);
-  font-size: 32px;
-  transition: var(--transition);
+.container {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
 }
 
-h1:hover {
-  transform: translateX(5px);
+/* Header et navigation */
+header {
+    padding: 20px 0;
+    position: sticky;
+    width: 100%;
+    top: 0;
+    z-index: 1000;
+    transition: var(--transition);
+    backdrop-filter: blur(10px);
+    background-color: rgba(33, 37, 41, 0.9);
+    box-shadow: var(--shadow);
+}
+
+nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: white;
+    text-decoration: none;
+    font-weight: 700;
+    font-size: 22px;
+}
+
+.logo i {
+    font-size: 24px;
+    color: var(--primary-color);
+}
+
+.nav-links {
+    display: flex;
+    gap: 30px;
+}
+
+.nav-links a {
+    color: rgba(255, 255, 255, 0.85);
+    text-decoration: none;
+    font-weight: 500;
+    transition: var(--transition);
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.nav-links a:hover {
+    color: white;
+    transform: translateY(-2px);
+}
+
+.nav-links a i {
+    font-size: 16px;
+}
+
+/* Contenu principal */
+.page-container {
+    flex: 1;
+    padding: 40px 0;
+}
+
+.issues-container {
+    max-width: 900px;
+    margin: 0 auto;
+    background: white;
+    border-radius: var(--border-radius);
+    padding: 30px;
+    box-shadow: var(--card-shadow);
+}
+
+.issues-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.issues-header h1 {
+    color: var(--dark-color);
+    font-size: 28px;
+    font-weight: 700;
+    position: relative;
+}
+
+.issues-header h1::after {
+    content: '';
+    position: absolute;
+    bottom: -8px;
+    left: 0;
+    width: 60px;
+    height: 4px;
+    background: linear-gradient(90deg, var(--primary-color), var(--accent-color));
+    border-radius: 2px;
 }
 
 /* Liste des problèmes */
-ul {
-  list-style-type: none;
-  background-color: white;
-  border-radius: 8px;
-  box-shadow: var(--shadow);
-  margin-bottom: 30px;
-  overflow: hidden;
+.issues-list {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
 }
 
-li {
-  padding: 15px 20px;
-  border-bottom: 1px solid #eee;
-  transition: var(--transition);
+.issue-card {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    padding: 20px;
+    background-color: white;
+    border-radius: var(--border-radius);
+    border: 1px solid rgba(0, 0, 0, 0.08);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+    transition: var(--transition);
+    position: relative;
+    overflow: hidden;
 }
 
-li:last-child {
-  border-bottom: none;
+.issue-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 4px;
+    background: linear-gradient(to bottom, var(--primary-color), var(--accent-color));
+    border-radius: 2px 0 0 2px;
+    opacity: 0.7;
 }
 
-li:hover {
-  background-color: rgba(52, 152, 219, 0.1);
-  transform: translateX(10px);
+.issue-card:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--card-shadow);
+    border-color: rgba(0, 0, 0, 0.12);
 }
 
-/* Liens des problèmes */
-li a {
-  color: var(--dark-color);
-  text-decoration: none;
-  font-weight: 600;
-  transition: var(--transition);
+.issue-info {
+    flex: 1;
 }
 
-li a:hover {
-  color: var(--primary-color);
+.issue-info h3 {
+    margin-bottom: 10px;
+    font-size: 18px;
+    font-weight: 600;
 }
 
-/* Statut des problèmes */
-li::after {
-  content: attr(status);
-  float: right;
-  font-size: 14px;
-  color: var(--status-color);
+.issue-info h3 a {
+    color: var(--dark-color);
+    text-decoration: none;
+    transition: var(--transition);
+}
+
+.issue-info h3 a:hover {
+    color: var(--primary-color);
+}
+
+.issue-meta {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 10px;
+}
+
+.issue-date, .issue-status {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 14px;
+    color: #666;
+}
+
+.issue-status i {
+    font-size: 10px;
+}
+
+/* Couleurs des statuts */
+.status-new i {
+    color: var(--status-new);
+}
+
+.status-inprogress i {
+    color: var(--status-inprogress);
+}
+
+.status-resolved i {
+    color: var(--status-resolved);
+}
+
+.status-closed i {
+    color: var(--status-closed);
+}
+
+.status-rejected i {
+    color: var(--status-rejected);
+}
+
+.issue-description {
+    color: #666;
+    font-size: 14px;
+    margin-top: 8px;
+}
+
+.issue-actions {
+    display: flex;
+    align-items: center;
+}
+
+.btn-action {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: rgba(67, 97, 238, 0.1);
+    color: var(--primary-color);
+    text-decoration: none;
+    transition: var(--transition);
+}
+
+.btn-action:hover {
+    background-color: var(--primary-color);
+    color: white;
+    transform: scale(1.1);
+}
+
+/* Message quand il n'y a pas de problèmes */
+.no-issues {
+    text-align: center;
+    padding: 40px 0;
+    color: #666;
+}
+
+.no-issues i {
+    font-size: 60px;
+    color: var(--accent-color);
+    margin-bottom: 20px;
+    opacity: 0.7;
+}
+
+.no-issues p {
+    margin-bottom: 20px;
+    font-size: 18px;
 }
 
 /* Boutons */
-button {
-  padding: 10px 15px;
-  border: none;
-  border-radius: 5px;
-  font-size: 16px;
-  cursor: pointer;
-  font-weight: 600;
-  transition: var(--transition);
-  margin-right: 15px;
+.btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 12px 24px;
+    background: var(--primary-color);
+    color: white;
+    border-radius: var(--border-radius);
+    text-decoration: none;
+    font-size: 1rem;
+    font-weight: 600;
+    transition: var(--transition);
+    border: none;
+    cursor: pointer;
+    box-shadow: 0 4px 15px rgba(67, 97, 238, 0.3);
+    position: relative;
+    overflow: hidden;
+    gap: 8px;
 }
 
-/* Bouton Ajouter */
-a:nth-of-type(1) button {
-  background-color: var(--primary-color);
-  color: white;
+.btn:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 25px rgba(67, 97, 238, 0.4);
 }
 
-a:nth-of-type(1) button:hover {
-  background-color: var(--hover-color);
-  transform: translateY(-3px);
-  box-shadow: 0 5px 15px rgba(52, 152, 219, 0.3);
+.btn::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0%;
+    height: 0%;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    transition: all 0.5s ease;
 }
 
-/* Bouton Déconnexion */
-a:nth-of-type(2) button {
-  background-color: var(--secondary-color);
-  color: white;
+.btn:hover::after {
+    width: 300%;
+    height: 300%;
 }
 
-a:nth-of-type(2) button:hover {
-  background-color: #c0392b;
-  transform: translateY(-3px);
-  box-shadow: 0 5px 15px rgba(231, 76, 60, 0.3);
+.btn-primary {
+    background: linear-gradient(45deg, var(--primary-color), var(--accent-color));
 }
 
-/* Liens */
-a {
-  text-decoration: none;
+.btn-secondary {
+    background: transparent;
+    border: 2px solid var(--primary-color);
+    color: var(--primary-color);
 }
 
-/* Message si aucun problème */
-ul:empty::after {
-  content: "Aucun problème à afficher";
-  display: block;
-  padding: 20px;
-  text-align: center;
-  color: var(--status-color);
-  font-style: italic;
+.btn-secondary:hover {
+    background: rgba(67, 97, 238, 0.1);
 }
 
-/* Animation d'entrée */
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(20px); }
-  to { opacity: 1; transform: translateY(0); }
+/* Footer */
+footer {
+    background-color: var(--dark-color);
+    color: white;
+    padding: 20px 0;
+    margin-top: auto;
 }
 
-body {
-  animation: fadeIn 0.5s ease-out;
+.copyright {
+    text-align: center;
+    color: rgba(255, 255, 255, 0.5);
+    font-size: 0.9rem;
 }
 
-/* Effet de statut spécifique pour les éléments de la liste */
-li {
-  position: relative;
+/* Responsive design */
+@media (max-width: 768px) {
+    .issues-header {
+        flex-direction: column;
+        gap: 15px;
+        align-items: flex-start;
+    }
+    
+    .issues-header .btn {
+        width: 100%;
+    }
+    
+    .issue-card {
+        flex-direction: column;
+    }
+    
+    .issue-actions {
+        margin-top: 15px;
+        align-self: flex-end;
+    }
+    
+    .nav-links {
+        display: none;
+    }
 }
 
-li::after {
-  position: absolute;
-  right: 20px;
-  top: 50%;
-  transform: translateY(-50%);
-  padding: 3px 10px;
-  border-radius: 20px;
-  font-size: 12px;
-  font-weight: 600;
+@media (max-width: 480px) {
+    .issues-container {
+        padding: 20px;
+        border-radius: 0;
+        box-shadow: none;
+    }
+    
+    .page-container {
+        padding: 20px 0;
+    }
+    
+    .issue-meta {
+        flex-direction: column;
+        gap: 5px;
+    }
 }
-
-/* Responsive */
-@media (max-width: 600px) {
-  body {
-    padding: 15px;
-  }
-  
-  h1 {
-    font-size: 24px;
-  }
-  
-  li {
-    padding: 12px 15px;
-  }
-  
-  button {
-    width: 100%;
-    margin-bottom: 10px;
-    margin-right: 0;
-  }
-}
-</style>
+  </style>
+</head>
 <body>
-    <h1>Liste des problèmes</h1>
-    <ul>
-        {% for issue in issues %}
-            <li><a href="{% url 'issue_detail' issue.id %}">{{ issue.title }}</a> - {{ issue.status }}</li>
-        {% endfor %}
-    </ul>
-    <a href="{% url 'report_issue' %}"><button>Ajouter une plainte</button></a>
-    <a href="{% url 'logout' %}"><button>Se déconnecter</button></a>
+    <header>
+        <div class="container">
+            <nav>
+                <a href="/" class="logo">
+                    <i class="fas fa-clipboard-list"></i>
+                    <span>GestionProblèmes</span>
+                </a>
+                <div class="nav-links">
+                    <a href="{% url 'signup' %}"><i class="fas fa-home"></i> Accueil</a>
+                    <a href="{% url 'report_issue' %}"><i class="fas fa-plus-circle"></i> Nouvelle plainte</a>
+                    <a href="{% url 'logout' %}"><i class="fas fa-sign-out-alt"></i> Déconnexion</a>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <div class="page-container">
+        <div class="issues-container">
+            <div class="issues-header">
+                <h1>Liste des problèmes</h1>
+                <a href="{% url 'report_issue' %}" class="btn btn-primary">
+                    <i class="fas fa-plus"></i> Ajouter une plainte
+                </a>
+            </div>
+            
+            {% if issues %}
+            <div class="issues-list">
+                {% for issue in issues %}
+                <div class="issue-card">
+                    <div class="issue-info">
+                        <h3><a href="{% url 'issue_detail' issue.id %}">{{ issue.title }}</a></h3>
+                        <div class="issue-meta">
+                            <span class="issue-date"><i class="far fa-calendar-alt"></i> {{ issue.created_at|date:"d/m/Y" }}</span>
+                            <span class="issue-status status-{{ issue.status|lower }}">
+                                <i class="fas fa-circle"></i> {{ issue.status }}
+                            </span>
+                        </div>
+                        {% if issue.description %}
+                        <p class="issue-description">{{ issue.description|truncatechars:100 }}</p>
+                        {% endif %}
+                    </div>
+                    <div class="issue-actions">
+                        <a href="{% url 'issue_detail' issue.id %}" class="btn-action">
+                            <i class="fas fa-eye"></i>
+                        </a>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+            {% else %}
+            <div class="no-issues">
+                <i class="far fa-smile-beam"></i>
+                <p>Aucun problème à afficher. Tout va bien !</p>
+                <a href="{% url 'report_issue' %}" class="btn btn-primary">Signaler un problème</a>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+
+    <footer>
+        <div class="container">
+            <div class="copyright">
+                <p>&copy; {% now "Y" %} GestionProblèmes. Tous droits réservés.</p>
+            </div>
+        </div>
+    </footer>
 </body>
 </html>

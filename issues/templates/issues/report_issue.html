@@ -1,241 +1,432 @@
 <!DOCTYPE html>
-<html>
+<html lang="fr">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Signaler un problème</title>
-    <link rel="stylesheet" type="text/css" href=>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #4361ee;
+            --secondary-color: #3a0ca3;
+            --accent-color: #7209b7;
+            --success-color: #4cc9f0;
+            --warning-color: #f72585;
+            --light-color: #f8f9fa;
+            --dark-color: #212529;
+            --shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+            --card-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+            --transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            --border-radius: 12px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', 'Segoe UI', Arial, sans-serif;
+        }
+
+        body {
+            background-color: var(--light-color);
+            color: var(--dark-color);
+            line-height: 1.6;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('https://images.unsplash.com/photo-1557683316-973673baf926?ixlib=rb-1.2.1&auto=format&fit=crop&w=1920&q=80');
+            background-size: cover;
+            background-position: center;
+            filter: brightness(0.3);
+            z-index: -1;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        /* Header et navigation */
+        header {
+            padding: 20px 0;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            transition: var(--transition);
+            backdrop-filter: blur(10px);
+            background-color: rgba(33, 37, 41, 0.9);
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: white;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 24px;
+        }
+
+        .logo i {
+            font-size: 28px;
+            color: var(--primary-color);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 30px;
+        }
+
+        .nav-links a {
+            color: rgba(255, 255, 255, 0.85);
+            text-decoration: none;
+            font-weight: 500;
+            transition: var(--transition);
+        }
+
+        .nav-links a:hover {
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        /* Formulaire */
+        .problem-form {
+            background: white;
+            color: var(--dark-color);
+            padding: 50px;
+            width: 100%;
+            max-width: 650px;
+            margin: 80px auto;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            position: relative;
+            z-index: 2;
+            transform: translateY(0);
+            transition: var(--transition);
+            overflow: hidden;
+        }
+
+        .problem-form::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 8px;
+            background: linear-gradient(90deg, var(--primary-color), var(--accent-color));
+        }
+
+        .problem-form:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+        }
+
+        .problem-form h2 {
+            margin-bottom: 30px;
+            color: var(--dark-color);
+            font-size: 2rem;
+            font-weight: 700;
+            position: relative;
+            display: inline-block;
+        }
+
+        .problem-form h2::after {
+            content: '';
+            display: block;
+            width: 70%;
+            height: 4px;
+            background: linear-gradient(90deg, var(--accent-color), transparent);
+            border-radius: 2px;
+            margin-top: 8px;
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+            position: relative;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: var(--dark-color);
+            text-align: left;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 14px 16px;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            background-color: #f9f9f9;
+            font-size: 1rem;
+            transition: var(--transition);
+            color: var(--dark-color);
+        }
+
+        .form-group textarea {
+            min-height: 150px;
+            resize: vertical;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            border-color: var(--primary-color);
+            background-color: white;
+            box-shadow: 0 0 0 4px rgba(67, 97, 238, 0.1);
+            outline: none;
+        }
+
+        .form-group .icon {
+            position: absolute;
+            right: 16px;
+            top: 43px;
+            color: #bdbdbd;
+            transition: var(--transition);
+        }
+
+        .form-group input:focus + .icon,
+        .form-group select:focus + .icon,
+        .form-group textarea:focus + .icon {
+            color: var(--primary-color);
+        }
+
+        .btn-group {
+            display: flex;
+            gap: 15px;
+            margin-top: 30px;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 14px 32px;
+            background: var(--primary-color);
+            color: white;
+            border-radius: var(--border-radius);
+            text-decoration: none;
+            font-size: 1rem;
+            font-weight: 600;
+            transition: var(--transition);
+            border: none;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(67, 97, 238, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 25px rgba(67, 97, 238, 0.4);
+        }
+
+        .btn::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0%;
+            height: 0%;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            transition: all 0.5s ease;
+        }
+
+        .btn:hover::after {
+            width: 300%;
+            height: 300%;
+        }
+
+        .btn-primary {
+            background: linear-gradient(45deg, var(--primary-color), var(--accent-color));
+            flex: 1;
+        }
+
+        .btn-secondary {
+            background: transparent;
+            border: 2px solid var(--dark-color);
+            color: var(--dark-color);
+        }
+
+        .btn-secondary:hover {
+            background: rgba(0, 0, 0, 0.05);
+        }
+
+        .btn i {
+            margin-right: 8px;
+        }
+
+        .error-message {
+            color: var(--warning-color);
+            font-size: 0.875rem;
+            margin-top: 5px;
+            text-align: left;
+            display: block;
+        }
+
+        .help-text {
+            font-size: 0.85rem;
+            color: #666;
+            margin-top: 5px;
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-5px); }
+            75% { transform: translateX(5px); }
+        }
+
+        .form-group.error input,
+        .form-group.error select,
+        .form-group.error textarea {
+            border-color: var(--warning-color);
+            animation: shake 0.5s ease-in-out;
+        }
+
+        /* Responsive design */
+        @media (max-width: 768px) {
+            .problem-form {
+                padding: 30px;
+                margin: 50px 20px;
+            }
+            
+            .btn-group {
+                flex-direction: column;
+            }
+            
+            .nav-links {
+                display: none;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .problem-form h2 {
+                font-size: 1.5rem;
+            }
+            
+            .problem-form {
+                padding: 25px;
+            }
+        }
+    </style>
 </head>
-<style>
-    /* Variables pour faciliter la personnalisation */
-:root {
-  --primary-color: #e74c3c;
-  --secondary-color: #3498db;
-  --dark-color: #2c3e50;
-  --light-color: #ecf0f1;
-  --shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-  --transition: all 0.3s ease;
-}
-
-/* Styles de base */
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-
-body {
-  font-family: 'Segoe UI', Arial, sans-serif;
-  line-height: 1.6;
-  color: var(--dark-color);
-  background-color: #f7f9fa;
-  padding: 30px;
-  max-width: 800px;
-  margin: 0 auto;
-}
-
-/* Titre principal */
-h1 {
-  color: var(--primary-color);
-  margin-bottom: 25px;
-  padding-bottom: 10px;
-  border-bottom: 2px solid var(--primary-color);
-  font-size: 28px;
-  transition: var(--transition);
-}
-
-h1:hover {
-  color: #c0392b;
-  transform: translateX(5px);
-}
-
-/* Formulaire */
-form {
-  background-color: white;
-  padding: 25px;
-  border-radius: 8px;
-  box-shadow: var(--shadow);
-  margin-bottom: 20px;
-  transition: var(--transition);
-}
-
-form:hover {
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
-  transform: translateY(-5px);
-}
-
-/* Paragraphes du formulaire */
-form p {
-  margin-bottom: 20px;
-}
-
-/* Labels */
-form label {
-  display: block;
-  margin-bottom: 8px;
-  font-weight: 600;
-  color: var(--dark-color);
-  transition: var(--transition);
-}
-
-form p:hover label {
-  color: var(--primary-color);
-}
-
-/* Champs de saisie */
-form input[type="text"],
-form input[type="email"],
-form textarea,
-form select {
-  width: 100%;
-  padding: 12px 15px;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-  font-size: 16px;
-  transition: var(--transition);
-}
-
-form textarea {
-  min-height: 150px;
-  resize: vertical;
-}
-
-form input:focus,
-form textarea:focus,
-form select:focus {
-  outline: none;
-  border-color: var(--primary-color);
-  box-shadow: 0 0 0 3px rgba(231, 76, 60, 0.1);
-}
-
-/* Messages d'aide */
-form .helptext {
-  display: block;
-  font-size: 14px;
-  color: #7f8c8d;
-  margin-top: 5px;
-  font-style: italic;
-}
-
-/* Messages d'erreur */
-form .errorlist {
-  list-style: none;
-  color: #c0392b;
-  font-size: 14px;
-  margin-top: 5px;
-  background-color: rgba(192, 57, 43, 0.1);
-  padding: 5px 10px;
-  border-radius: 4px;
-  border-left: 3px solid #c0392b;
-}
-
-/* Bouton Envoyer */
-form button[type="submit"] {
-  background-color: var(--primary-color);
-  color: white;
-  border: none;
-  padding: 12px 25px;
-  font-size: 16px;
-  border-radius: 4px;
-  cursor: pointer;
-  transition: var(--transition);
-  font-weight: 600;
-  position: relative;
-  overflow: hidden;
-}
-
-form button[type="submit"]:hover {
-  background-color: #c0392b;
-  transform: translateY(-2px);
-}
-
-/* Effet d'onde pour le bouton */
-form button[type="submit"]:after {
-  content: '';
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  width: 0;
-  height: 0;
-  background: rgba(255, 255, 255, 0.2);
-  border-radius: 50%;
-  transform: translate(-50%, -50%);
-  transition: width 0.5s, height 0.5s;
-}
-
-form button[type="submit"]:active:after {
-  width: 300%;
-  height: 300%;
-}
-
-/* Bouton Retour */
-a button {
-  background-color: var(--secondary-color);
-  color: white;
-  border: none;
-  padding: 12px 25px;
-  font-size: 16px;
-  border-radius: 4px;
-  cursor: pointer;
-  transition: var(--transition);
-  font-weight: 600;
-}
-
-a button:hover {
-  background-color: #2980b9;
-  transform: translateY(-2px);
-  box-shadow: 0 3px 10px rgba(52, 152, 219, 0.3);
-}
-
-/* Lien */
-a {
-  text-decoration: none;
-}
-
-/* Animation d'entrée */
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(20px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-
-body {
-  animation: fadeIn 0.5s ease-out;
-}
-
-/* Responsive */
-@media (max-width: 600px) {
-  body {
-    padding: 15px;
-  }
-  
-  h1 {
-    font-size: 24px;
-  }
-  
-  form {
-    padding: 15px;
-  }
-  
-  form input[type="text"],
-  form input[type="email"],
-  form textarea,
-  form select {
-    padding: 10px;
-  }
-  
-  form button[type="submit"],
-  a button {
-    padding: 10px 20px;
-    width: 100%;
-    margin-bottom: 10px;
-  }
-}
-</style>
 <body>
-    <h1>Signaler un problème</h1>
-    <form method="post">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit">Envoyer</button>
-    </form>
-    <a href="{% url 'issue_list' %}"><button>Retour à la liste des problèmes</button></a>
+  <header>
+      <nav>
+          <a href="{% url 'signup' %}" class="logo">
+              <i class="fas fa-bug"></i>
+              <span>BugTracker</span>
+          </a>
+          <div class="nav-links">
+              <a href="{% url 'signup' %}">Accueil</a>
+              <a href="{% url 'issue_list' %}">Problèmes</a>
+          </div>
+      </nav>
+  </header>
+
+  <!-- Notification -->
+  <div class="notification" id="notification">
+      <i class="fas fa-check-circle"></i>
+      <div class="notification-content">
+          <h3>Succès !</h3>
+          <p>Votre signalement a été soumis avec succès.</p>
+      </div>
+      <button class="notification-close" id="notification-close">
+          <i class="fas fa-times"></i>
+      </button>
+  </div>
+
+  <div class="container">
+      <form class="problem-form" method="post" enctype="multipart/form-data" id="problem-form">
+          <h2>Signaler un problème</h2>
+          <div class="form-group">
+              <label for="id_title">Titre du problème</label>
+              <input type="text" id="id_title" name="title" required placeholder="Titre court et descriptif">
+              <i class="fas fa-heading icon"></i>
+          </div>
+          
+          <div class="form-group">
+              <label for="id_category">Catégorie</label>
+              <select id="id_category" name="category" required>
+                  <option value="">Sélectionnez une catégorie</option>
+                  <option value="bug">Bogue technique</option>
+                  <option value="feature">Demande de fonctionnalité</option>
+                  <option value="security">Problème de sécurité</option>
+                  <option value="performance">Problème de performance</option>
+                  <option value="other">Autre</option>
+              </select>
+              <i class="fas fa-tag icon"></i>
+          </div>
+          
+          <div class="form-group">
+              <label for="id_priority">Priorité</label>
+              <select id="id_priority" name="priority" required>
+                  <option value="">Sélectionnez une priorité</option>
+                  <option value="low">Basse</option>
+                  <option value="medium">Moyenne</option>
+                  <option value="high">Haute</option>
+                  <option value="critical">Critique</option>
+              </select>
+              <i class="fas fa-exclamation-circle icon"></i>
+          </div>
+          
+          <div class="form-group">
+              <label for="id_description">Description détaillée</label>
+              <textarea id="id_description" name="description" required placeholder="Décrivez le problème en détail. Incluez les étapes pour reproduire le bogue si possible."></textarea>
+              <i class="fas fa-comment-alt icon"></i>
+              <span class="help-text">Soyez aussi précis que possible pour nous aider à résoudre le problème rapidement.</span>
+          </div>
+          
+          <div class="form-group">
+              <label for="id_file">Pièce jointe (optionnel)</label>
+              <input type="file" id="id_file" name="attachment">
+              <i class="fas fa-paperclip icon"></i>
+              <span class="help-text">Format accepté : JPG, PNG, PDF. Taille max : 5 Mo</span>
+          </div>
+          
+          {% csrf_token %}
+          
+          <div class="btn-group">
+            <a href="{% url 'issue_list' %}" class="btn btn-secondary">
+                  <i class="fas fa-paper-plane"></i>
+                  Envoyer
+              
+              <a href="{% url 'issue_list' %}" class="btn btn-secondary">
+                  <i class="fas fa-arrow-left"></i>
+                  Retour à la liste
+              </a>
+          </div>
+      </form>
+  </div>
 </body>
 </html>

@@ -1,250 +1,755 @@
 <!DOCTYPE html>
-<html>
+<html lang="fr">
 <head>
-    <title>Inscription</title>
-    <link rel="stylesheet" type="text/css" href=>
-</head>
-<style>
-    /* Variables pour faciliter la personnalisation */
-:root {
-  --primary-color: #4a6ed0;
-  --secondary-color: #6c63ff;
-  --accent-color: #5c4fff;
-  --light-color: #f0f4f8;
-  --dark-color: #333;
-  --success-color: #2ecc71;
-  --error-color: #e74c3c;
-  --shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-  --transition: all 0.3s ease;
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestion de Plaintes - Simplifiez vos réclamations</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+      :root {
+    --primary-color: #4361ee;
+    --secondary-color: #3a0ca3;
+    --accent-color: #7209b7;
+    --success-color: #4cc9f0;
+    --warning-color: #f72585;
+    --light-color: #f8f9fa;
+    --dark-color: #212529;
+    --shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+    --card-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+    --transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    --border-radius: 12px;
 }
 
-/* Styles de base */
 * {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', 'Segoe UI', Arial, sans-serif;
 }
 
 body {
-  font-family: 'Segoe UI', Arial, sans-serif;
-  line-height: 1.6;
-  color: var(--dark-color);
-  background-color: #f8f9fa;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  min-height: 100vh;
-  padding: 40px 20px;
+    background-color: var(--light-color);
+    color: var(--dark-color);
+    line-height: 1.6;
+    position: relative;
+    overflow-x: hidden;
 }
 
-/* Titre principal */
-h1 {
-  color: var(--primary-color);
-  margin-bottom: 30px;
-  font-size: 32px;
-  text-align: center;
-  position: relative;
-  transition: var(--transition);
+body::before {
+    content: "";
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url('https://images.unsplash.com/photo-1557683316-973673baf926?ixlib=rb-1.2.1&auto=format&fit=crop&w=1920&q=80');
+    background-size: cover;
+    background-position: center;
+    filter: brightness(0.3);
+    z-index: -1;
 }
 
-h1:after {
-  content: '';
-  position: absolute;
-  bottom: -8px;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 80px;
-  height: 3px;
-  background: var(--secondary-color);
-  border-radius: 2px;
-  transition: width 0.3s ease;
+.container {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
 }
 
-h1:hover:after {
-  width: 120px;
+/* Header et navigation */
+header {
+    padding: 20px 0;
+    position: fixed;
+    width: 100%;
+    top: 0;
+    z-index: 1000;
+    transition: var(--transition);
+    backdrop-filter: blur(10px);
+    background-color: rgba(33, 37, 41, 0.9);
 }
 
-/* Formulaire */
-form {
-  width: 100%;
-  max-width: 450px;
-  background: white;
-  padding: 30px;
-  border-radius: 8px;
-  box-shadow: var(--shadow);
-  transition: var(--transition);
-  margin-bottom: 20px;
+header.scrolled {
+    padding: 10px 0;
+    box-shadow: var(--shadow);
 }
 
-form:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
+nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
 
-/* Paragraphes générés par form.as_p */
-form p {
-  margin-bottom: 20px;
-  position: relative;
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: white;
+    text-decoration: none;
+    font-weight: 700;
+    font-size: 24px;
 }
 
-/* Labels */
-form label {
-  display: block;
-  margin-bottom: 8px;
-  font-weight: 500;
-  color: var(--dark-color);
-  transition: var(--transition);
+.logo img {
+    height: 40px;
 }
 
-form p:hover label {
-  color: var(--primary-color);
+.nav-links {
+    display: flex;
+    gap: 30px;
 }
 
-/* Champs de saisie */
-form input[type="text"],
-form input[type="email"],
-form input[type="password"],
-form select,
-form textarea {
-  width: 100%;
-  padding: 12px 15px;
-  border: 1px solid #ddd;
-  border-radius: 5px;
-  font-size: 16px;
-  transition: var(--transition);
+.nav-links a {
+    color: rgba(255, 255, 255, 0.85);
+    text-decoration: none;
+    font-weight: 500;
+    transition: var(--transition);
 }
 
-form input:focus,
-form select:focus,
-form textarea:focus {
-  outline: none;
-  border-color: var(--secondary-color);
-  box-shadow: 0 0 0 3px rgba(108, 99, 255, 0.1);
+.nav-links a:hover {
+    color: white;
+    transform: translateY(-2px);
 }
 
-/* Messages d'aide */
-form .helptext {
-  display: block;
-  font-size: 14px;
-  color: #666;
-  margin-top: 5px;
-  font-style: italic;
+/* Section d'accueil */
+.welcome {
+    padding: 180px 0 120px;
+    text-align: center;
+    position: relative;
+    background: transparent;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
-/* Messages d'erreur */
-form .errorlist {
-  list-style: none;
-  color: var(--error-color);
-  font-size: 14px;
-  margin-top: 5px;
-  background-color: rgba(231, 76, 60, 0.1);
-  padding: 5px 10px;
-  border-radius: 4px;
-  border-left: 3px solid var(--error-color);
+.welcome-content {
+    max-width: 800px;
+    margin: 0 auto;
+    position: relative;
+    z-index: 2;
 }
 
-/* Bouton */
-button[type="submit"] {
-  background-color: var(--primary-color);
-  color: white;
-  border: none;
-  padding: 12px 25px;
-  font-size: 16px;
-  border-radius: 5px;
-  cursor: pointer;
-  transition: var(--transition);
-  width: 100%;
-  font-weight: 600;
-  margin-top: 10px;
-  position: relative;
-  overflow: hidden;
+.welcome h1 {
+    font-size: 3.5rem;
+    font-weight: 800;
+    margin-bottom: 20px;
+    color: white;
+    letter-spacing: -1px;
+    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+    animation: fadeInDown 1s ease-out;
 }
 
-button[type="submit"]:hover {
-  background-color: var(--accent-color);
-  transform: translateY(-2px);
-  box-shadow: 0 3px 10px rgba(92, 79, 255, 0.3);
+.welcome p {
+    font-size: 1.25rem;
+    margin-bottom: 40px;
+    color: rgba(255, 255, 255, 0.9);
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+    animation: fadeInUp 1s ease-out 0.2s forwards;
+    opacity: 0;
 }
 
-button[type="submit"]:after {
-  content: '';
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  width: 0;
-  height: 0;
-  background: rgba(255, 255, 255, 0.2);
-  border-radius: 50%;
-  transform: translate(-50%, -50%);
-  transition: width 0.5s, height 0.5s;
+.btn-group {
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+    margin-top: 40px;
+    animation: fadeInUp 1s ease-out 0.4s forwards;
+    opacity: 0;
 }
 
-button[type="submit"]:active:after {
-  width: 300%;
-  height: 300%;
+.btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 14px 32px;
+    background: var(--primary-color);
+    color: white;
+    border-radius: var(--border-radius);
+    text-decoration: none;
+    font-size: 1rem;
+    font-weight: 600;
+    transition: var(--transition);
+    border: none;
+    cursor: pointer;
+    box-shadow: 0 4px 15px rgba(67, 97, 238, 0.3);
+    position: relative;
+    overflow: hidden;
 }
 
-/* Lien "Se connecter" */
-p a {
-  color: var(--secondary-color);
-  text-decoration: none;
-  font-weight: 500;
-  transition: var(--transition);
+.btn:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 25px rgba(67, 97, 238, 0.4);
 }
 
-p a:hover {
-  color: var(--accent-color);
-  text-decoration: underline;
+.btn::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0%;
+    height: 0%;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    transition: all 0.5s ease;
 }
 
-/* Dernier paragraphe */
-body > p {
-  margin-top: 5px;
-  text-align: center;
-  font-size: 15px;
+.btn:hover::after {
+    width: 300%;
+    height: 300%;
 }
 
-/* Animation de l'entrée */
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(20px); }
-  to { opacity: 1; transform: translateY(0); }
+.btn-primary {
+    background: linear-gradient(45deg, var(--primary-color), var(--accent-color));
 }
 
-body {
-  animation: fadeIn 0.6s ease-out;
+.btn-secondary {
+    background: transparent;
+    border: 2px solid white;
 }
 
-/* Responsive */
-@media (max-width: 500px) {
-  form {
-    padding: 20px;
-  }
-  
-  h1 {
-    font-size: 26px;
-  }
-  
-  form input[type="text"],
-  form input[type="email"],
-  form input[type="password"],
-  form select,
-  form textarea {
-    padding: 10px;
-    font-size: 15px;
-  }
-  
-  button[type="submit"] {
-    padding: 10px 20px;
-  }
+.btn-secondary:hover {
+    background: rgba(255, 255, 255, 0.1);
 }
-</style>
+
+/* Conception de la section d'inscription */
+.inscription {
+    background: white;
+    color: var(--dark-color);
+    padding: 50px;
+    width: 100%;
+    max-width: 550px;
+    margin: 80px auto;
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow);
+    position: relative;
+    z-index: 2;
+    transform: translateY(0);
+    transition: var(--transition);
+    overflow: hidden;
+}
+
+.inscription::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 8px;
+    background: linear-gradient(90deg, var(--primary-color), var(--accent-color));
+}
+
+.inscription:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+}
+
+.inscription h2 {
+    margin-bottom: 30px;
+    color: var(--dark-color);
+    font-size: 2rem;
+    font-weight: 700;
+    position: relative;
+    display: inline-block;
+}
+
+.inscription h2::after {
+    content: '';
+    display: block;
+    width: 70%;
+    height: 4px;
+    background: linear-gradient(90deg, var(--accent-color), transparent);
+    border-radius: 2px;
+    margin-top: 8px;
+}
+
+.form-group {
+    margin-bottom: 25px;
+    position: relative;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 500;
+    color: var(--dark-color);
+    text-align: left;
+}
+
+.form-group input {
+    width: 100%;
+    padding: 14px 16px;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    background-color: #f9f9f9;
+    font-size: 1rem;
+    transition: var(--transition);
+    color: var(--dark-color);
+}
+
+.form-group input:focus {
+    border-color: var(--primary-color);
+    background-color: white;
+    box-shadow: 0 0 0 4px rgba(67, 97, 238, 0.1);
+    outline: none;
+}
+
+.form-group .icon {
+    position: absolute;
+    right: 16px;
+    top: 40px;
+    color: #bdbdbd;
+    transition: var(--transition);
+}
+
+.form-group input:focus + .icon {
+    color: var(--primary-color);
+}
+
+form button {
+    width: 100%;
+    padding: 16px;
+    margin-top: 20px;
+    background: linear-gradient(45deg, var(--primary-color), var(--accent-color));
+    color: white;
+    font-size: 1.1rem;
+    font-weight: 600;
+    border: none;
+    border-radius: var(--border-radius);
+    cursor: pointer;
+    transition: var(--transition);
+    box-shadow: 0 4px 15px rgba(67, 97, 238, 0.2);
+}
+
+form button:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(67, 97, 238, 0.3);
+}
+
+.login-link {
+    margin-top: 25px;
+    color: #666;
+}
+
+.login-link a {
+    color: var(--primary-color);
+    text-decoration: none;
+    font-weight: 600;
+    transition: var(--transition);
+}
+
+.login-link a:hover {
+    color: var(--accent-color);
+    text-decoration: underline;
+}
+
+/* Animation des champs du formulaire */
+@keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(-5px); }
+    75% { transform: translateX(5px); }
+}
+
+.form-group.error input {
+    border-color: var(--warning-color);
+    animation: shake 0.5s ease-in-out;
+}
+
+.error-message {
+    color: var(--warning-color);
+    font-size: 0.875rem;
+    margin-top: 5px;
+    text-align: left;
+    display: block;
+}
+
+/* Section d'avantages */
+.features {
+    padding: 100px 0;
+    background-color: white;
+}
+
+.features-title {
+    text-align: center;
+    margin-bottom: 60px;
+}
+
+.features-title h2 {
+    font-size: 2.5rem;
+    color: var(--dark-color);
+    margin-bottom: 20px;
+}
+
+.features-title p {
+    color: #666;
+    max-width: 700px;
+    margin: 0 auto;
+}
+
+.features-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 30px;
+}
+
+.feature-card {
+    background-color: white;
+    border-radius: var(--border-radius);
+    padding: 30px;
+    box-shadow: var(--card-shadow);
+    transition: var(--transition);
+    position: relative;
+    overflow: hidden;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.feature-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+}
+
+.feature-icon {
+    font-size: 2.5rem;
+    margin-bottom: 20px;
+    color: var(--primary-color);
+    transition: var(--transition);
+}
+
+.feature-card:hover .feature-icon {
+    transform: scale(1.2);
+    color: var(--accent-color);
+}
+
+.feature-card h3 {
+    font-size: 1.5rem;
+    margin-bottom: 15px;
+    color: var(--dark-color);
+}
+
+.feature-card p {
+    color: #666;
+    flex-grow: 1;
+}
+
+.feature-card::before {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 4px;
+    background: linear-gradient(90deg, var(--primary-color), var(--accent-color));
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: var(--transition);
+}
+
+.feature-card:hover::before {
+    transform: scaleX(1);
+}
+
+/* Footer */
+footer {
+    background-color: var(--dark-color);
+    color: white;
+    padding: 60px 0 20px;
+    position: relative;
+}
+
+.footer-content {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 40px;
+    margin-bottom: 40px;
+}
+
+.footer-column h3 {
+    font-size: 1.2rem;
+    margin-bottom: 20px;
+    position: relative;
+    padding-bottom: 10px;
+}
+
+.footer-column h3::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 40px;
+    height: 3px;
+    background: var(--accent-color);
+}
+
+.footer-column ul {
+    list-style: none;
+}
+
+.footer-column ul li {
+    margin-bottom: 10px;
+}
+
+.footer-column a {
+    color: rgba(255, 255, 255, 0.7);
+    text-decoration: none;
+    transition: var(--transition);
+}
+
+.footer-column a:hover {
+    color: white;
+    padding-left: 5px;
+}
+
+.social-icons {
+    display: flex;
+    gap: 15px;
+    margin-top: 20px;
+}
+
+.social-icons a {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    background-color: rgba(255, 255, 255, 0.1);
+    border-radius: 50%;
+    transition: var(--transition);
+}
+
+.social-icons a:hover {
+    background-color: var(--primary-color);
+    transform: translateY(-5px);
+}
+
+.copyright {
+    text-align: center;
+    padding-top: 20px;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    color: rgba(255, 255, 255, 0.5);
+    font-size: 0.9rem;
+}
+
+/* Animations */
+@keyframes fadeInDown {
+    from {
+        opacity: 0;
+        transform: translateY(-30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+    .welcome h1 {
+        font-size: 2.5rem;
+    }
+    
+    .welcome p {
+        font-size: 1rem;
+    }
+    
+    .btn-group {
+        flex-direction: column;
+        gap: 10px;
+    }
+    
+    .inscription {
+        padding: 30px;
+        margin: 50px 20px;
+    }
+    
+    .feature-card {
+        padding: 20px;
+    }
+    
+    .nav-links {
+        display: none;
+    }
+}
+
+@media (max-width: 480px) {
+    .welcome h1 {
+        font-size: 2rem;
+    }
+    
+    .welcome {
+        padding: 150px 0 80px;
+    }
+    
+    .inscription h2 {
+        font-size: 1.5rem;
+    }
+}
+    </style>
+</head>
 <body>
-    <h1>Inscription</h1>
-    <form method="post">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit">S'inscrire</button>
-    </form>
-    <p>Déjà inscrit ? <a href="{% url 'login' %}">Se connecter</a></p>
+    <header>
+        <div class="container">
+            <nav>
+                <a href="#" class="logo">
+                    <i class="fas fa-clipboard-check"></i>
+                    ClaimTrack
+                </a>
+                <div class="nav-links">
+                    <a href="#">Accueil</a>
+                    <a href="#fonctionnalites">Fonctionnalités</a>
+                    <a href="#inscription">S'inscrire</a>
+                    <a href="{% url 'login' %}">Se connecter</a>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <section class="welcome">
+        <div class="container">
+            <div class="welcome-content">
+                <h1>Simplifiez la gestion de vos réclamations</h1>
+                <p>Une solution moderne, intuitive et sécurisée pour gérer efficacement les plaintes et réclamations de vos clients en un seul endroit.</p>
+                <div class="btn-group">
+                    <a href="#inscription" class="btn btn-primary">
+                        <i class="fas fa-user-plus"></i>
+                        Commencer gratuitement
+                    </a>
+                    <a href="#fonctionnalites" class="btn btn-secondary">
+                        <i class="fas fa-info-circle"></i>
+                        En savoir plus
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="fonctionnalites" class="features">
+        <div class="container">
+            <div class="features-title">
+                <h2>Pourquoi choisir notre solution ?</h2>
+                <p>Découvrez les fonctionnalités qui font de notre application la référence en matière de gestion de plaintes</p>
+            </div>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <i class="fas fa-tachometer-alt feature-icon"></i>
+                    <h3>Tableau de bord intuitif</h3>
+                    <p>Visualisez toutes vos plaintes en cours et leur statut en un coup d'œil grâce à notre interface ergonomique.</p>
+                </div>
+                <div class="feature-card">
+                    <i class="fas fa-chart-line feature-icon"></i>
+                    <h3>Statistiques détaillées</h3>
+                    <p>Analysez les tendances et identifiez les problèmes récurrents grâce à nos rapports personnalisables.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <i class="fas fa-shield-alt feature-icon"></i>
+                    <h3>Sécurité renforcée</h3>
+                    <p>Vos données sont protégées par un système de sécurité conforme aux standards les plus stricts.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="inscription" class="inscription">
+        <h2>Inscrivez-vous dès maintenant</h2>
+        <form method="post">
+            {% csrf_token %}
+            
+            <div class="form-group">
+                <label for="username">Nom d'utilisateur</label>
+                <input type="text" id="username" name="username" required>
+                <i class="fas fa-user icon"></i>
+            </div>
+            
+            <div class="form-group">
+                <label for="email">Adresse e-mail</label>
+                <input type="email" id="email" name="email" required>
+                <i class="fas fa-envelope icon"></i>
+            </div>
+            
+            <div class="form-group">
+                <label for="password1">Mot de passe</label>
+                <input type="password" id="password1" name="password1" required>
+                <i class="fas fa-lock icon"></i>
+            </div>
+            
+            <div class="form-group">
+                <label for="password2">Confirmer le mot de passe</label>
+                <input type="password" id="password2" name="password2" required>
+                <i class="fas fa-lock icon"></i>
+            </div>
+            
+            <button type="submit">
+                <i class="fas fa-user-plus"></i>
+                Créer mon compte
+            </button>
+        </form>
+        <p class="login-link">Déjà inscrit ? <a href="{% url 'login' %}">Se connecter</a></p>
+    </section>
+
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column">
+                    <h3>ClaimTrack</h3>
+                    <p>La solution innovante pour la gestion efficace de vos réclamations et l'amélioration de la satisfaction client.</p>
+                    <div class="social-icons">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                    </div>
+                </div>
+                <div class="footer-column">
+                    <h3>Liens rapides</h3>
+                    <ul>
+                        <li><a href="#">Accueil</a></li>
+                        <li><a href="#fonctionnalites">Fonctionnalités</a></li>
+                        <li><a href="#inscription">S'inscrire</a></li>
+                        <li><a href="{% url 'login' %}">Se connecter</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>Support</h3>
+                    <ul>
+                        <li><a href="#">Centre d'aide</a></li>
+                        <li><a href="#">FAQ</a></li>
+                        <li><a href="#">Contact</a></li>
+                        <li><a href="#">Politique de confidentialité</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="copyright">
+                &copy; 2025 ClaimTrack. Tous droits réservés.
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Script pour animer la navbar lors du défilement
+        window.addEventListener('scroll', function() {
+            const header = document.querySelector('header');
+            if (window.scrollY > 50) {
+                header.classList.add('scrolled');
+            } else {
+                header.classList.remove('scrolled');
+            }
+        });
+    </script>
 </body>
 </html>

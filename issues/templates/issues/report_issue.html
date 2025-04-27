@@ -1,432 +1,325 @@
 <!DOCTYPE html>
-<html lang="fr">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Signaler un problème</title>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <style>
-        :root {
-            --primary-color: #4361ee;
-            --secondary-color: #3a0ca3;
-            --accent-color: #7209b7;
-            --success-color: #4cc9f0;
-            --warning-color: #f72585;
-            --light-color: #f8f9fa;
-            --dark-color: #212529;
-            --shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
-            --card-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
-            --transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            --border-radius: 12px;
-        }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Poppins', 'Segoe UI', Arial, sans-serif;
-        }
-
-        body {
-            background-color: var(--light-color);
-            color: var(--dark-color);
-            line-height: 1.6;
-            position: relative;
-            overflow-x: hidden;
-        }
-
-        body::before {
-            content: "";
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-image: url('https://images.unsplash.com/photo-1557683316-973673baf926?ixlib=rb-1.2.1&auto=format&fit=crop&w=1920&q=80');
-            background-size: cover;
-            background-position: center;
-            filter: brightness(0.3);
-            z-index: -1;
-        }
-
-        .container {
-            width: 100%;
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 20px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-        }
-
-        /* Header et navigation */
-        header {
-            padding: 20px 0;
-            position: fixed;
-            width: 100%;
-            top: 0;
-            z-index: 1000;
-            transition: var(--transition);
-            backdrop-filter: blur(10px);
-            background-color: rgba(33, 37, 41, 0.9);
-        }
-
-        nav {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 20px;
-        }
-
-        .logo {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            color: white;
-            text-decoration: none;
-            font-weight: 700;
-            font-size: 24px;
-        }
-
-        .logo i {
-            font-size: 28px;
-            color: var(--primary-color);
-        }
-
-        .nav-links {
-            display: flex;
-            gap: 30px;
-        }
-
-        .nav-links a {
-            color: rgba(255, 255, 255, 0.85);
-            text-decoration: none;
-            font-weight: 500;
-            transition: var(--transition);
-        }
-
-        .nav-links a:hover {
-            color: white;
-            transform: translateY(-2px);
-        }
-
-        /* Formulaire */
-        .problem-form {
-            background: white;
-            color: var(--dark-color);
-            padding: 50px;
-            width: 100%;
-            max-width: 650px;
-            margin: 80px auto;
-            border-radius: var(--border-radius);
-            box-shadow: var(--shadow);
-            position: relative;
-            z-index: 2;
-            transform: translateY(0);
-            transition: var(--transition);
-            overflow: hidden;
-        }
-
-        .problem-form::before {
-            content: "";
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 8px;
-            background: linear-gradient(90deg, var(--primary-color), var(--accent-color));
-        }
-
-        .problem-form:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
-        }
-
-        .problem-form h2 {
-            margin-bottom: 30px;
-            color: var(--dark-color);
-            font-size: 2rem;
-            font-weight: 700;
-            position: relative;
-            display: inline-block;
-        }
-
-        .problem-form h2::after {
-            content: '';
-            display: block;
-            width: 70%;
-            height: 4px;
-            background: linear-gradient(90deg, var(--accent-color), transparent);
-            border-radius: 2px;
-            margin-top: 8px;
-        }
-
-        .form-group {
-            margin-bottom: 25px;
-            position: relative;
-        }
-
-        .form-group label {
-            display: block;
-            margin-bottom: 8px;
-            font-weight: 500;
-            color: var(--dark-color);
-            text-align: left;
-        }
-
-        .form-group input,
-        .form-group select,
-        .form-group textarea {
-            width: 100%;
-            padding: 14px 16px;
-            border: 1px solid #e0e0e0;
-            border-radius: 8px;
-            background-color: #f9f9f9;
-            font-size: 1rem;
-            transition: var(--transition);
-            color: var(--dark-color);
-        }
-
-        .form-group textarea {
-            min-height: 150px;
-            resize: vertical;
-        }
-
-        .form-group input:focus,
-        .form-group select:focus,
-        .form-group textarea:focus {
-            border-color: var(--primary-color);
-            background-color: white;
-            box-shadow: 0 0 0 4px rgba(67, 97, 238, 0.1);
-            outline: none;
-        }
-
-        .form-group .icon {
-            position: absolute;
-            right: 16px;
-            top: 43px;
-            color: #bdbdbd;
-            transition: var(--transition);
-        }
-
-        .form-group input:focus + .icon,
-        .form-group select:focus + .icon,
-        .form-group textarea:focus + .icon {
-            color: var(--primary-color);
-        }
-
-        .btn-group {
-            display: flex;
-            gap: 15px;
-            margin-top: 30px;
-        }
-
-        .btn {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            padding: 14px 32px;
-            background: var(--primary-color);
-            color: white;
-            border-radius: var(--border-radius);
-            text-decoration: none;
-            font-size: 1rem;
-            font-weight: 600;
-            transition: var(--transition);
-            border: none;
-            cursor: pointer;
-            box-shadow: 0 4px 15px rgba(67, 97, 238, 0.3);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .btn:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 8px 25px rgba(67, 97, 238, 0.4);
-        }
-
-        .btn::after {
-            content: '';
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            width: 0%;
-            height: 0%;
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 50%;
-            transform: translate(-50%, -50%);
-            transition: all 0.5s ease;
-        }
-
-        .btn:hover::after {
-            width: 300%;
-            height: 300%;
-        }
-
-        .btn-primary {
-            background: linear-gradient(45deg, var(--primary-color), var(--accent-color));
-            flex: 1;
-        }
-
-        .btn-secondary {
-            background: transparent;
-            border: 2px solid var(--dark-color);
-            color: var(--dark-color);
-        }
-
-        .btn-secondary:hover {
-            background: rgba(0, 0, 0, 0.05);
-        }
-
-        .btn i {
-            margin-right: 8px;
-        }
-
-        .error-message {
-            color: var(--warning-color);
-            font-size: 0.875rem;
-            margin-top: 5px;
-            text-align: left;
-            display: block;
-        }
-
-        .help-text {
-            font-size: 0.85rem;
-            color: #666;
-            margin-top: 5px;
-        }
-
-        @keyframes shake {
-            0%, 100% { transform: translateX(0); }
-            25% { transform: translateX(-5px); }
-            75% { transform: translateX(5px); }
-        }
-
-        .form-group.error input,
-        .form-group.error select,
-        .form-group.error textarea {
-            border-color: var(--warning-color);
-            animation: shake 0.5s ease-in-out;
-        }
-
-        /* Responsive design */
-        @media (max-width: 768px) {
-            .problem-form {
-                padding: 30px;
-                margin: 50px 20px;
-            }
-            
-            .btn-group {
-                flex-direction: column;
-            }
-            
-            .nav-links {
-                display: none;
-            }
-        }
-
-        @media (max-width: 480px) {
-            .problem-form h2 {
-                font-size: 1.5rem;
-            }
-            
-            .problem-form {
-                padding: 25px;
-            }
-        }
-    </style>
+    <link rel="stylesheet" type="text/css" href=>
 </head>
+<style>
+:root {
+    --primary-color: #4361ee;
+    --secondary-color: #3a0ca3;
+    --accent-color: #7209b7;
+    --success-color: #4cc9f0;
+    --warning-color: #f72585;
+    --light-color: #13202e;
+    --dark-color: #212529;
+    --shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+    --card-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+    --transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    --border-radius: 12px;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', 'Segoe UI', Arial, sans-serif;
+}
+
+body {
+    background-color: var(--light-color);
+    color: white;
+    line-height: 1.6;
+    position: relative;
+    overflow-x: hidden;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 40px 20px;
+}
+
+body::before {
+    content: "";
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url('https://images.unsplash.com/photo-1557683316-973673baf926?ixlib=rb-1.2.1&auto=format&fit=crop&w=1920&q=80');
+    background-size: cover;
+    background-position: center;
+    filter: brightness(0.3);
+    z-index: -1;
+}
+
+.container {
+    width: 100%;
+    max-width: 600px;
+    margin: 0 auto;
+    animation: fadeInUp 1s ease-out;
+}
+
+/* Titre principal */
+h1 {
+    color: white;
+    margin-bottom: 30px;
+    font-size: 2.5rem;
+    text-align: center;
+    font-weight: 700;
+    position: relative;
+    padding-bottom: 15px;
+    animation: fadeInDown 1s ease-out;
+    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+}
+
+h1::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 60px;
+    height: 4px;
+    background: linear-gradient(90deg, var(--primary-color), var(--accent-color));
+    border-radius: 2px;
+    transition: width 0.3s ease;
+}
+
+h1:hover::after {
+    width: 100px;
+}
+
+/* Formulaire */
+form {
+    width: 100%;
+    max-width: 600px;
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(10px);
+    padding: 40px;
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow);
+    transform: translateY(0);
+    transition: var(--transition);
+    position: relative;
+    overflow: hidden;
+    animation: fadeInUp 1s ease-out 0.2s forwards;
+    opacity: 0;
+    margin-bottom: 30px;
+}
+
+form::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 4px;
+    background: linear-gradient(90deg, var(--primary-color), var(--accent-color));
+}
+
+form:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+}
+
+/* Champs du formulaire */
+form p {
+    margin-bottom: 25px;
+    position: relative;
+}
+
+form label {
+    display: block;
+    margin-bottom: 10px;
+    font-weight: 500;
+    color: white;
+    font-size: 1rem;
+}
+
+form input[type="text"],
+form input[type="email"],
+form textarea,
+form select {
+    width: 100%;
+    padding: 14px 16px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 8px;
+    background-color: rgba(255, 255, 255, 0.05);
+    font-size: 1rem;
+    transition: var(--transition);
+    color: white;
+}
+
+form input[type="text"]:focus,
+form input[type="email"]:focus,
+form textarea:focus,
+form select:focus {
+    border-color: var(--primary-color);
+    background-color: rgba(255, 255, 255, 0.1);
+    box-shadow: 0 0 0 4px rgba(67, 97, 238, 0.2);
+    outline: none;
+}
+
+form textarea {
+    min-height: 150px;
+    resize: vertical;
+}
+
+/* Effet de focus sur les champs */
+form input:focus,
+form textarea:focus,
+form select:focus {
+    transform: translateX(5px);
+}
+
+/* Aide textuelle */
+.helptext {
+    display: block;
+    color: rgba(255, 255, 255, 0.6);
+    font-size: 0.85rem;
+    margin-top: 5px;
+    font-style: italic;
+}
+
+/* Messages d'erreur */
+.errorlist {
+    list-style: none;
+    color: var(--warning-color);
+    font-size: 0.9rem;
+    background: rgba(247, 37, 133, 0.1);
+    padding: 8px 12px;
+    border-radius: 5px;
+    border-left: 3px solid var(--warning-color);
+    margin-top: 5px;
+}
+
+/* Boutons */
+button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 14px 32px;
+    background: linear-gradient(45deg, var(--primary-color), var(--accent-color));
+    color: white;
+    border-radius: var(--border-radius);
+    text-decoration: none;
+    font-size: 1rem;
+    font-weight: 600;
+    transition: var(--transition);
+    border: none;
+    cursor: pointer;
+    box-shadow: 0 4px 15px rgba(67, 97, 238, 0.3);
+    position: relative;
+    overflow: hidden;
+}
+
+button:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 25px rgba(67, 97, 238, 0.4);
+}
+
+button::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0%;
+    height: 0%;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    transition: all 0.5s ease;
+}
+
+button:hover::after {
+    width: 300%;
+    height: 300%;
+}
+
+button[type="submit"] {
+    width: 100%;
+    margin-top: 10px;
+}
+
+/* Bouton de retour */
+a button {
+    background: transparent;
+    border: 2px solid white;
+    width: 100%;
+    margin-top: 15px;
+    animation: fadeInUp 1s ease-out 0.4s forwards;
+    opacity: 0;
+}
+
+a button:hover {
+    background: rgba(255, 255, 255, 0.1);
+}
+
+/* Lien */
+a {
+    text-decoration: none;
+    display: block;
+    width: 100%;
+    max-width: 600px;
+}
+
+/* Animations */
+@keyframes fadeInDown {
+    from {
+        opacity: 0;
+        transform: translateY(-30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    h1 {
+        font-size: 2rem;
+    }
+    
+    form {
+        padding: 25px;
+    }
+}
+
+@media (max-width: 480px) {
+    h1 {
+        font-size: 1.8rem;
+    }
+    
+    form {
+        padding: 20px;
+    }
+    
+    button {
+        padding: 12px 20px;
+    }
+}
+</style>
 <body>
-  <header>
-      <nav>
-          <a href="{% url 'signup' %}" class="logo">
-              <i class="fas fa-bug"></i>
-              <span>BugTracker</span>
-          </a>
-          <div class="nav-links">
-              <a href="{% url 'signup' %}">Accueil</a>
-              <a href="{% url 'issue_list' %}">Problèmes</a>
-          </div>
-      </nav>
-  </header>
-
-  <!-- Notification -->
-  <div class="notification" id="notification">
-      <i class="fas fa-check-circle"></i>
-      <div class="notification-content">
-          <h3>Succès !</h3>
-          <p>Votre signalement a été soumis avec succès.</p>
-      </div>
-      <button class="notification-close" id="notification-close">
-          <i class="fas fa-times"></i>
-      </button>
-  </div>
-
-  <div class="container">
-      <form class="problem-form" method="post" enctype="multipart/form-data" id="problem-form">
-          <h2>Signaler un problème</h2>
-          <div class="form-group">
-              <label for="id_title">Titre du problème</label>
-              <input type="text" id="id_title" name="title" required placeholder="Titre court et descriptif">
-              <i class="fas fa-heading icon"></i>
-          </div>
-          
-          <div class="form-group">
-              <label for="id_category">Catégorie</label>
-              <select id="id_category" name="category" required>
-                  <option value="">Sélectionnez une catégorie</option>
-                  <option value="bug">Bogue technique</option>
-                  <option value="feature">Demande de fonctionnalité</option>
-                  <option value="security">Problème de sécurité</option>
-                  <option value="performance">Problème de performance</option>
-                  <option value="other">Autre</option>
-              </select>
-              <i class="fas fa-tag icon"></i>
-          </div>
-          
-          <div class="form-group">
-              <label for="id_priority">Priorité</label>
-              <select id="id_priority" name="priority" required>
-                  <option value="">Sélectionnez une priorité</option>
-                  <option value="low">Basse</option>
-                  <option value="medium">Moyenne</option>
-                  <option value="high">Haute</option>
-                  <option value="critical">Critique</option>
-              </select>
-              <i class="fas fa-exclamation-circle icon"></i>
-          </div>
-          
-          <div class="form-group">
-              <label for="id_description">Description détaillée</label>
-              <textarea id="id_description" name="description" required placeholder="Décrivez le problème en détail. Incluez les étapes pour reproduire le bogue si possible."></textarea>
-              <i class="fas fa-comment-alt icon"></i>
-              <span class="help-text">Soyez aussi précis que possible pour nous aider à résoudre le problème rapidement.</span>
-          </div>
-          
-          <div class="form-group">
-              <label for="id_file">Pièce jointe (optionnel)</label>
-              <input type="file" id="id_file" name="attachment">
-              <i class="fas fa-paperclip icon"></i>
-              <span class="help-text">Format accepté : JPG, PNG, PDF. Taille max : 5 Mo</span>
-          </div>
-          
-          {% csrf_token %}
-          
-          <div class="btn-group">
-            <a href="{% url 'issue_list' %}" class="btn btn-secondary">
-                  <i class="fas fa-paper-plane"></i>
-                  Envoyer
-              
-              <a href="{% url 'issue_list' %}" class="btn btn-secondary">
-                  <i class="fas fa-arrow-left"></i>
-                  Retour à la liste
-              </a>
-          </div>
-      </form>
-  </div>
+    <h1>Signaler un problème</h1>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Envoyer</button>
+    </form>
+    <a href="{% url 'issue_list' %}"><button>Retour à la liste des problèmes</button></a>
 </body>
 </html>

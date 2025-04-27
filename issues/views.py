@@ -49,7 +49,10 @@ def update_issue_status(request, issue_id):
         issue.save()
         return JsonResponse({'status': 'success', 'issue_id': issue.id})
     return JsonResponse({'status': 'error', 'message': 'Invalid request'})
+from django.shortcuts import render
 
-def logged_out(request):
+@login_required
+def logout_views(request):
     logout(request)
-    return redirect('login')
+    return render(request, 'registration/logout.html')
+    

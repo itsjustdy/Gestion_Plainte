@@ -6,5 +6,5 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('issues/', include('issues.urls')),
     path('', views.signup, name='home'),  # Redirige la page d'accueil vers la page d'inscription
-    path('accounts/', include('django.contrib.auth.urls')),  # Ajout des URL d'authentification
+    path('accounts/', include('issues.auth_urls')),  # Utilisation des URL d'authentification personnalisées sans logout
 ]
